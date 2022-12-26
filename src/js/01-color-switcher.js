@@ -1,25 +1,25 @@
-function getRandomHexColor() {
-    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  }
-  
-  const startButton = document.querySelector('[data-start]');
-  const stopButton = document.querySelector('[data-stop]');
-  const body = document.querySelector('body');
-  let timerId = null;
-  
-  startButton.addEventListener('click', onClick);
-  stopButton.addEventListener('click', stopBackgroundColor);
-  function onClick(e) {
-    startChangeColors();
-    timerId = setInterval(startChangeColors, 1000);
-    e.currentTarget.disabled = true;
-  }
-  
-  function stopBackgroundColor(e) {
+const body = document.querySelector("body");
+const btnStart = document.querySelector("button[data-start]");
+const btnStop = document.querySelector("button[data-stop]");
+let timerId = null;
+
+btnStart.addEventListener("click", onStart);
+btnStop.addEventListener("click", onStop);
+
+function onStart() {
+    btnStart.setAttribute("disabled", true);
+    btnStop.removeAttribute("disabled");
+    timerId = setInterval(() => {
+        body.style.backgroundColor = getRandomHexColor();
+    }, 1000);
+}
+
+function onStop() {
+    btnStop.setAttribute("disabled", true);
+    btnStart.removeAttribute("disabled");
     clearInterval(timerId);
-    startButton.disabled = false;
-  }
-  
-  function startChangeColors() {
-    body.style.backgroundColor = getRandomHexColor();
-  }
+}
+
+function getRandomHexColor() {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
